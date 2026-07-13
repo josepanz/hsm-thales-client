@@ -1,0 +1,62 @@
+stages:
+  - lint
+  - test
+  - package
+  - docker
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  MAVEN_CLI_OPTS: "-B -q"
+
+# Cache de dependencias Maven entre pipelines - evita re-descargar todo en cada run.
+cache:
+  key: "$CI_COMMIT_REF_SLUG-maven"
+  paths:
+    - .m2/repository
+
+default:
+  image: maven:3.9-eclipse-temurin-17
+
+lint:
+  stage: lint
+  script:
+    # "Lint antes de build": si ni siquiera compila, no tiene sentido correr tests ni empaquetar.
+    - mvn $MAVEN_CLI_OPTS compile
+
+test:
+  stage: test
+  needs: ["lint"]
+  script:
+    - mvn $MAVEN_CLI_OPTS test
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+    paths:
+      - target/surefire-reports/
+    expire_in: 7 days
+
+package:
+  stage: package
+  needs: ["test"]
+  script:
+    - mvn $MAVEN_CLI_OPTS package -DskipTests
+  artifacts:
+    paths:
+      - target/*.jar
+    expire_in: 14 days
+
+docker:
+  stage: docker
+  needs: ["package"]
+  image: docker:24-cli
+  services:
+    - docker:24-dind
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
+    # nunca usar "latest" en un tag que pueda llegar a produccion: se fija al SHA del commit.
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
