@@ -49,7 +49,54 @@ hsm.luna.enabled=false                    # ver docs/THALES_9000_10K_LUNA.md
 ```
 
 En produccion, todo lo sensible viene de variables de entorno (ver `application-prod.properties`),
-nunca hardcodeado en el repo.
+nunca hardcodeado en el repo. `application-prod.properties` solo declara los nombres de esas
+variables (`${HSM_THALES_NODES}`, etc.) - Spring las resuelve al levantar el proceso, asi que el
+jar empaquetado es el mismo en cualquier ambiente; lo unico que cambia es que variables le pasas
+al arrancarlo.
+
+### Configuracion en runtime
+
+Variables esperadas por el perfil `prod` (todas via `-Dspring.profiles.active=prod` o
+`SPRING_PROFILES_ACTIVE=prod`):
+
+```
+HSM_THALES_NODES                 # requerida, ej: host1:1500,host2:1500
+HSM_THALES_CONNECT_TIMEOUT       # opcional, default 5s
+HSM_THALES_REQUEST_TIMEOUT       # opcional, default 5s
+HSM_THALES_HEALTH_CHECK_INTERVAL # opcional, default 30s
+HSM_LUNA_ENABLED                 # opcional, default false
+HSM_LUNA_PKCS11_CONFIG_PATH      # requerida si HSM_LUNA_ENABLED=true
+HSM_LUNA_KEYSTORE_PASSWORD       # requerida si HSM_LUNA_ENABLED=true
+```
+
+**Docker:**
+
+```bash
+docker run -e SPRING_PROFILES_ACTIVE=prod \
+           -e HSM_THALES_NODES=host1:1500,host2:1500 \
+           -p 8080:8080 hsm-thales-client:latest
+```
+
+**docker-compose**, con un `.env` (no versionado) al lado del `docker-compose.yml`:
+
+```yaml
+services:
+  hsm-thales-client:
+    image: hsm-thales-client:latest
+    env_file: .env
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+```
+
+**Kubernetes**, separando lo no sensible (`ConfigMap`) de lo sensible (`Secret`):
+
+```yaml
+envFrom:
+  - configMapRef:
+      name: hsm-thales-client-config   # HSM_THALES_NODES, timeouts, etc.
+  - secretRef:
+      name: hsm-thales-client-secrets  # HSM_LUNA_KEYSTORE_PASSWORD
+```
 
 ## API de ejemplo
 
