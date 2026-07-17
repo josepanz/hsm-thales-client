@@ -6,9 +6,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * Este es exactamente el tipo de validacion que faltaba en el cliente original y que
- * causo el bug de hsm-EA32.xml (un campo declarado con el nombre equivocado, sin nadie
- * detectandolo porque no habia chequeo de longitud/tipo en tiempo de armado del mensaje).
+ * Este es exactamente el tipo de validacion que evita bugs como un campo declarado con
+ * el nombre equivocado (ver `hsm-EA32.xml` en `docs/SECURITY_FINDINGS.md`) que nadie
+ * detecta porque no hay chequeo de longitud/tipo en tiempo de armado del mensaje.
  */
 class FieldCodecTest {
 

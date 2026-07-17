@@ -3,8 +3,8 @@
 ## payShield 9000 y payShield 10000
 
 El protocolo implementado en `infrastructure.thales.protocol` es el set de comandos clasico
-"Variant LMK" (a veces llamado protocolo Racal/Thales heredado), el mismo que ya usaba el
-cliente jPOS original: `NC`, `NO`, `A0`, `EI`, `EA`, `BK`, `G0`, `CA`.
+"Variant LMK" (a veces llamado protocolo Racal/Thales heredado): `NC`, `NO`, `A0`, `EI`, `EA`,
+`BK`, `G0`, `CA`.
 
 - **payShield 9000**: lo soporta nativamente, sin configuracion adicional.
 - **payShield 10000**: lo soporta en modo de compatibilidad/legacy LMK. El 10000 tambien soporta

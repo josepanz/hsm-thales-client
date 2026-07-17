@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 /**
  * Catalogo de codigos de error genericos del manual Thales (Host Command Reference).
- * Reemplaza el {@code HashMap<String,String>} del cliente original: al ser un enum,
- * el compilador detecta codigos mal escritos y el catalogo queda documentado en un
- * solo lugar, sin depender de que alguien mantenga un mapa en paralelo.
+ * Al ser un enum, el compilador detecta codigos mal escritos y el catalogo queda
+ * documentado en un solo lugar, sin depender de un {@code HashMap<String,String>}
+ * mantenido en paralelo.
  */
 public enum ThalesErrorCode {
     OK("00", "Sin error"),

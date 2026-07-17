@@ -14,11 +14,9 @@ import java.util.Map;
  * Comando CA - Translate PIN from TPK to ZPK. Terminales con llave de trabajo fija
  * (TPK/ZPK), tipicamente ATM y POS Verifone.
  * <p>
- * Formato exacto verificado contra hsm-CA16.xml / hsm-CA32.xml del cliente original:
- * el flag de esquema de la llave destino solo se envia cuando esta es de doble/triple
+ * El flag de esquema de la llave destino solo se envia cuando esta es de doble/triple
  * longitud (ver {@link com.hsmclient.domain.model.KeyScheme#isExplicit()}); para una
- * llave simple longitud no se declara, que es exactamente la asimetria que tenian los
- * dos XML separados (CA16 sin "destination-key-type", CA32 con el campo).
+ * llave de longitud simple no se declara.
  */
 public record TranslatePinTpkToZpkCommand(EncryptedKey sourceTpk, EncryptedKey destinationZpk,
                                             PinBlock sourcePinBlock, Pan pan)

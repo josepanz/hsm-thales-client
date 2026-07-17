@@ -47,12 +47,12 @@ Hexagonal / clean architecture: el dominio no sabe que existe Spring, TCP, ni HT
   (`GenericCryptoPort`), no `PaymentHsmPort` - ver
   [`THALES_9000_10K_LUNA.md`](THALES_9000_10K_LUNA.md) sobre por que.
 
-## Por que no se uso el enfoque original (FSDMsg + XML)
+## Por que no se uso un enfoque basado en FSDMsg + XML
 
-El cliente jPOS original describia cada comando en un archivo XML suelto (`hsm-CA16.xml`,
-`hsm-EA32.xml`...) sin ningun chequeo de que la longitud declarada coincidiera con la real. Esto
-permitio, por ejemplo, que `hsm-EA32.xml` declarara el campo `zpk-type` dos veces por error en
-vez de `pvk-type` (ver `docs/SECURITY_FINDINGS.md`) sin que nada lo detectara.
+Un enfoque basado en jPOS FSDMsg describe cada comando en un archivo XML suelto (por ejemplo
+`hsm-CA16.xml`, `hsm-EA32.xml`) sin ningun chequeo de que la longitud declarada coincida con la
+real. Eso permite, por ejemplo, que un schema declare el campo `zpk-type` dos veces por error en
+vez de `pvk-type` (ver `docs/SECURITY_FINDINGS.md`) sin que nada lo detecte.
 
 Aca cada comando es una clase Java (`record` que implementa `ThalesCommand<R>`), y cada campo se
 valida con `FieldCodec.fixed(...)` en tiempo de codificacion. Un error de longitud o de campo

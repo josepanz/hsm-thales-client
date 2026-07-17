@@ -1,8 +1,7 @@
 # hsm-thales-client
 
 Cliente Spring Boot para HSM de pagos Thales (payShield 9000/10000, protocolo Variant LMK),
-reimplementado desde cero con arquitectura hexagonal a partir de un cliente jPOS existente,
-con las correcciones y mejoras descritas en `docs/`.
+implementado con arquitectura hexagonal, con las decisiones de diseno descritas en `docs/`.
 
 Incluye tambien un adapter de ejemplo para **Thales Luna** (JCE/PKCS#11) para dejar explicito
 que es un producto distinto, no un reemplazo del HSM de pagos - ver
@@ -63,7 +62,7 @@ GET  /actuator/health/thales
 ## Documentacion
 
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) - arquitectura hexagonal, por que cada capa existe.
-- [`docs/SECURITY_FINDINGS.md`](docs/SECURITY_FINDINGS.md) - hallazgos y correcciones respecto al cliente original.
+- [`docs/SECURITY_FINDINGS.md`](docs/SECURITY_FINDINGS.md) - decisiones de diseno y riesgos evitados.
 - [`docs/THALES_9000_10K_LUNA.md`](docs/THALES_9000_10K_LUNA.md) - compatibilidad payShield 9000/10000 y por que Luna no aplica al dominio de pagos.
 - [`docs/LUNA_SETUP_CHECKLIST.md`](docs/LUNA_SETUP_CHECKLIST.md) - paso a paso para pasar del mock software (`hsm.luna.mock-mode=true`, sin hardware) a un Luna real.
 

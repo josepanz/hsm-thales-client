@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Ejemplo de vertical slice completo: HTTP -> caso de uso -> puerto -> HSM.
- * Equivalente al flujo de PINTranslate.java del cliente jPOS original, pero como
- * endpoint HTTP independiente en vez de una transaccion embebida en el switch.
+ * Ejemplo de vertical slice completo: HTTP -> caso de uso -> puerto -> HSM,
+ * expuesto como endpoint HTTP independiente.
  */
 @RestController
 @RequestMapping("/api/v1/pin")

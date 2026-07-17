@@ -3,12 +3,10 @@ package com.hsmclient.infrastructure.thales.protocol.codec;
 /**
  * Helpers de codificacion de campos de ancho fijo del protocolo Thales.
  * <p>
- * A diferencia del cliente original (que dependia de esquemas XML sueltos, sin
- * validacion de longitud declarada vs. real - la causa del bug detectado en
- * hsm-EA32.xml, donde "zpk-type" aparecia declarado dos veces por error de copy/paste
- * en vez de "pvk-type"), aca cada campo se valida en tiempo de codificacion: si un
- * valor no calza con la longitud esperada por el comando, se falla rapido con un
- * mensaje claro en vez de mandar un mensaje corrupto al HSM.
+ * Cada campo se valida en tiempo de codificacion: si un valor no calza con la
+ * longitud esperada por el comando, se falla rapido con un mensaje claro en vez de
+ * mandar un mensaje corrupto al HSM (ver `docs/SECURITY_FINDINGS.md` sobre el tipo
+ * de bug que esto evita).
  */
 public final class FieldCodec {
 

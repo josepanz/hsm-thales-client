@@ -25,10 +25,9 @@ import java.util.concurrent.TimeoutException;
  * Una conexion TCP a un host:port del HSM, con un hilo lector dedicado que demultiplexa
  * las respuestas por el header de 12 digitos.
  * <p>
- * Reemplaza el mecanismo original (un {@code jpos.space.Space} usado como cola de
- * rendezvous, con el hilo consumidor haciendo polling cada 500ms) por un mapa de
- * correlacion en memoria + {@link CompletableFuture}: menor latencia (el lector reacciona
- * apenas llega el frame, no cada 500ms) y sin acoplar el transporte a un framework de colas.
+ * Usa un mapa de correlacion en memoria + {@link CompletableFuture} en vez de polling sobre
+ * una cola compartida: menor latencia (el lector reacciona apenas llega el frame) y sin
+ * acoplar el transporte a un framework de colas.
  * <p>
  * Thread-safety: {@link #send} puede llamarse concurrentemente desde varios hilos de la
  * aplicacion; la escritura al socket esta serializada con un lock dedicado para que dos

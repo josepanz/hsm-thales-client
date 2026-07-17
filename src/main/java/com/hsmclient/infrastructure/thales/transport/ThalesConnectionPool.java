@@ -15,11 +15,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Pool round-robin de conexiones a uno o mas host:port del HSM.
  * <p>
- * El cliente original abria un hilo por host configurado y usaba una cola global de
- * jPOS Space para repartir requests entre ellos de forma implicita (el primer hilo libre
- * tomaba el siguiente request de la cola). Aca el reparto es explicito por round-robin,
- * y hay reconexion automatica en background si un nodo cae, en vez de depender de que
- * el hilo del adapter reintente conectar en su propio loop.
+ * El reparto de requests entre nodos es explicito por round-robin, y hay reconexion
+ * automatica en background si un nodo cae.
  */
 public class ThalesConnectionPool implements AutoCloseable {
 

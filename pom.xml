@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.bepsa.hsm</groupId>
+    <groupId>com.josepanz.hsm</groupId>
     <artifactId>hsm-thales-client</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>hsm-thales-client</name>
